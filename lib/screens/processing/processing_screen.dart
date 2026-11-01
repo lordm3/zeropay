@@ -364,7 +364,7 @@ class _ProcessingScreenState extends State<ProcessingScreen> with SingleTickerPr
                 const SizedBox(height: 12),
                 _idRow('UPI transaction ID', _upiRef, palette),
                 const SizedBox(height: 4),
-                _idRow('Transaction ID', _txnId, palette),
+                _idRow('Google transaction ID', _txnId, palette),
               ],
             ),
           ),

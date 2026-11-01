@@ -1,5 +1,6 @@
 # Every push to main and every PR runs the tests.
-# Pushing a tag like v1.2.0 also builds a signed APK and publishes a GitHub release.
+# Pushing a tag like v1.2.0 also builds a signed APK and publishes a GitHub release,
+# using release-notes/v1.2.0.md as the notes.
 name: CI
 
 on:
@@ -38,10 +39,14 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Validate tag
+      - name: Validate tag and release notes
         run: |
           if ! [[ "$VERSION" =~ ^v[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
             echo "::error::Tag $VERSION is not in the form v1.2.3"
+            exit 1
+          fi
+          if [ ! -s "release-notes/$VERSION.md" ]; then
+            echo "::error::Missing release-notes/$VERSION.md"
             exit 1
           fi
 
@@ -87,4 +92,4 @@ jobs:
           GH_TOKEN: ${{ github.token }}
         run: |
           mv build/app/outputs/flutter-apk/app-release.apk "zeropay-$VERSION.apk"
-          gh release create "$VERSION" "zeropay-$VERSION.apk" --title "$VERSION" --generate-notes
+          gh release create "$VERSION" "zeropay-$VERSION.apk" --title "$VERSION" --notes-file "release-notes/$VERSION.md"

@@ -488,6 +488,7 @@ void main() {
     expect(find.text('Payment failed'), findsOneWidget);
     expect(find.text('Payment started'), findsOneWidget);
     expect(find.text('To'), findsOneWidget);
+    expect(find.text('Google transaction ID'), findsOneWidget);
     expect(find.textContaining('Paid'), findsNothing);
     final tick = tester.widget<Icon>(find.byIcon(Icons.check_circle_outline));
     final color = tick.color!;
